@@ -15,32 +15,34 @@
   </p>
 </body> */}
 
-// JS (JQuery 3.4.1)
+const userId = "MikkoLuhtasaari";
+const usersUrl = "https://api.github.com/users/";
 
-// const userId = "MikkoLuhtasaari";
-// const usersUrl = "https://api.github.com/users/";
+document.getElementById("fetchBtn").addEventListener("click", () => {
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        document.getElementById("userData").innerText = xhr.responseText;
+        const xhr2 = new XMLHttpRequest();
+        xhr2.onreadystatechange = function() {
+          if (xhr2.readyState == 4) {
+            if (xhr2.status == 200) {
+              document.getElementById("repositoryData").innerText = "Repository count: " + JSON.parse(xhr2.responseText).length;
+            } else {
+              console.error("Unsuccessful transfer (error code: " + xhr.statusText + ")");
+            }
+          }
+        }
 
-// $("document").ready(function() {
-//   $("#fetchBtn").click(function() {
-//     $.getJSON({
-//       url: usersUrl + userId,
-//       success: function(data, status) {
-//         if (status === "success") {
-//           $("#userData").text(JSON.stringify(data));
-//           $.getJSON({
-//             url: data.repos_url,
-//             success: function(data, status) {
-//               if (status === "success") {
-//                 $("#repositoryData").text("Repository count: " + data.length);
-//               } else {
-//                 console.error("Something went wrong with the request!");
-//               }
-//             }
-//           })
-//         } else {
-//           console.error("Something went wrong with the request!");
-//         }
-//       }
-//     })
-//   })
-// })
+        xhr2.open("GET", JSON.parse(xhr.responseText).repos_url, true)
+        xhr2.send();
+      } else {
+        console.error("Unsuccessful transfer (error code: " + xhr2.statusText + ")");
+      }
+    }
+  }
+
+  xhr.open("GET", usersUrl + userId, true)
+  xhr.send();
+});

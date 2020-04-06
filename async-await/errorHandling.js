@@ -1,4 +1,4 @@
-// https://jsfiddle.net/MikkoLuhtasaari/L4fw637u/21/
+// https://jsfiddle.net/MikkoLuhtasaari/L4fw637u/37/
 
 // HTML
 
@@ -17,8 +17,6 @@
 </body> */
 }
 
-// Javascript
-
 const userId = "MikkoLuhtasaari";
 const usersUrl = "https://api.github.com/users/";
 
@@ -28,15 +26,13 @@ const fetchAsync = async url => {
   return data;
 }
 
-$("document").ready(() => {
-  $("#fetchBtn").click(async () => {
-    try {
-      const userData = await fetchAsync(usersUrl + userId);
-      $("#userData").text(JSON.stringify(userData));
-      const userRepos = await fetchAsync(userData.repos_url);
-      $("#repositoryData").text("Repository count: " + userRepos.length);
-    } catch (error) {
-      console.error(error);
-    }
-  });
+document.getElementById("fetchBtn").addEventListener("click", async () => {
+  try {
+    const userData = await fetchAsync(usersUrl + userId);
+    document.getElementById("userData").innerText = JSON.stringify(userData);
+    const userRepos = await fetchAsync(userData.repos_url);
+    document.getElementById("repositoryData").innerText = "Repository count: " + userRepos.length;
+  } catch (error) {
+    console.error(error);
+  }
 });

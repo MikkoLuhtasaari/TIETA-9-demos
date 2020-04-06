@@ -1,4 +1,4 @@
-// https://jsfiddle.net/MikkoLuhtasaari/u4ohxq1w/
+// https://jsfiddle.net/MikkoLuhtasaari/u4ohxq1w/25/
 
 // HTML
 
@@ -18,35 +18,31 @@
   </p>
 </body> */}
 
-// JS (JQuery 3.4.1)
+const userId = "MikkoLuhtasaari";
+const usersUrl = "https://api.github.com/users/";
 
-// const userId = "MikkoLuhtasaari";
-// const usersUrl = "https://api.github.com/users/";
-
-// $("document").ready(function() {
-//   $("#fetchBtn").click(function() {
-//     fetch(usersUrl + userId)
-//       .then((response) => {
-//         return response.json();
-//       })
-//       .then((user) => {
-//         $("#userData").text(JSON.stringify(user));
-//         return user;
-//       })
-//       .then((user) => {
-//         fetch(user.repos_url)
-//           .then((response) => {
-//           	return response.json();
-//           })
-//           .then((repos) => {
-//             $("#repositoryData").text("Repository count: " + repos.length);
-//           })
-//           .catch((error) => {
-//            console.error("error");
-//           })
-//       })
-//       .catch((error) => {
-//         console.error("error");
-//       })
-//   })
-// })
+document.getElementById("fetchBtn").addEventListener("click", function() {
+  fetch(usersUrl + userId)
+    .then((response) => {
+      return response.json();
+    })
+    .then((user) => {
+      document.getElementById("userData").innerText = JSON.stringify(user);
+      return user;
+    })
+    .then((user) => {
+      fetch(user.repos_url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((repos) => {
+          document.getElementById("repositoryData").innerText = "Repository count: " + repos.length;
+        })
+        .catch((error) => {
+          console.error("error");
+        })
+    })
+    .catch((error) => {
+      console.error("error");
+    })
+});
